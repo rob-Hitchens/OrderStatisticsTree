@@ -15,9 +15,9 @@ Adds O(1) order statistics to each node and the tree itself:
 
 A BST maintains an ordered list. A BST can guarantee O(log n) performance for insertions and removals but only if the tree remains balanced. Balancing is accomplished through local reorganizations. 
 
-[Ideally balanced trees](https://en.wikipedia.org/wiki/AVL_tree) optimize read operations by ensuring optimal balance as sorted data is inserted and removed. This methods invests considerable energy keeping the list perfectly balanced.
+[Ideally balanced trees](https://en.wikipedia.org/wiki/AVL_tree) optimize read operations by ensuring optimal balance as sorted data is inserted and removed. This method invests considerable energy (meaning gas) keeping the list perfectly balanced.
 
-A Red Black Tree optimizes the cost of insertion and removal by tolerating limited imbalances. This type of tree minimizes the gas cost of insert while maintaining a BST with acceptable balance.
+A Red Black Tree optimizes the cost of insertion and removal by tolerating limited imbalances. This type of tree minimizes the gas cost of insert and delete ops while maintaining a BST with acceptable balance.
 
 ### Inserts and Deletes Take a "Key" and a "Value"
 
