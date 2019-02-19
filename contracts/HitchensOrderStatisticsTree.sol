@@ -140,30 +140,32 @@ library HitchensOrderStatisticsTreeLibrary {
         return atPercentile(self,50);
     }
     function rank(Tree storage self, uint key) internal view returns(uint _rank) {
-        bool finished;
-        uint cursor = self.root;
-        Node storage c = self.nodes[cursor];
-        uint smaller = getNodeCount(self,c.left);
-        while (!finished) {
-            uint valueCount = c.values.length;
-            if(cursor == key) {
-                finished = true;
-            } else {
-                if(cursor < key) {
-                    cursor = c.right;
-                    c = self.nodes[cursor];
-                    smaller += valueCount + getNodeCount(self,c.left);
+        if(count(self) > 0) {
+            bool finished;
+            uint cursor = self.root;
+            Node storage c = self.nodes[cursor];
+            uint smaller = getNodeCount(self,c.left);
+            while (!finished) {
+                uint valueCount = c.values.length;
+                if(cursor == key) {
+                    finished = true;
                 } else {
-                    cursor = c.left;
-                    c = self.nodes[cursor];
-                    smaller -= (valueCount + getNodeCount(self,c.right));
+                    if(cursor < key) {
+                        cursor = c.right;
+                        c = self.nodes[cursor];
+                        smaller += valueCount + getNodeCount(self,c.left);
+                    } else {
+                        cursor = c.left;
+                        c = self.nodes[cursor];
+                        smaller -= (valueCount + getNodeCount(self,c.right));
+                    }
+                }
+                if (!exists(self,cursor)) {
+                    finished = true;
                 }
             }
-            if (!exists(self,cursor)) {
-                finished = true;
-            }
+            return smaller + 1;
         }
-        return smaller + 1;
     }
     function atRank(Tree storage self, uint _rank) internal view returns(uint key) {
         bool finished;
@@ -542,6 +544,12 @@ contract HitchensOrderStatisticsTree is Owned {
     function rank(uint key) public view returns(uint _rank) {
         _rank = tree.rank(key);
     }
+    function below(uint key) public view returns(uint _below) {
+        if(tree.count() > 0 && key > 0) _below = tree.rank(key)-1;
+    }
+    function above(uint key) public view returns(uint _above) {
+        if(tree.count() > 0) _above = tree.count()-tree.rank(key);
+    }    
     function atRank(uint _rank) public view returns(uint _key) {
         _key = tree.atRank(_rank);
     }
@@ -616,6 +624,12 @@ contract HitchensOrderStatisticsTrees is Owned {
     function rank(bytes32 topic, uint key) public view returns(uint _rank) {
         _rank = topics[topic].tree.rank(key);
     }
+    function below(bytes32 topic, uint key) public view returns(uint _below) {
+        if(topics[topic].tree.count() > 0 && key > 0) _below = topics[topic].tree.rank(key)-1;
+    }
+    function above(bytes32 topic, uint key) public view returns(uint _above) {
+        if(topics[topic].tree.count() > 0) _above = topics[topic].tree.count()-topics[topic].tree.rank(key);
+    }     
     function atRank(bytes32 topic, uint _rank) public view returns(uint _key) {
         _key = topics[topic].tree.atRank(_rank);
     }
