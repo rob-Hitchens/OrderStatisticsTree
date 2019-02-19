@@ -27,7 +27,7 @@ The system optimizes storage with a novel internal organization.
 
 ### Node()
 
-- Key: Same as the input
+- key: Same as the input
 - parent: Internal
 - left: Internal
 - right: Internal
@@ -162,6 +162,8 @@ Although I'm a strong believer that the sorting concern can (and should) nearly 
 Describe and show how to run the tests with code examples.
 
 ## Contributors
+
+Optimization and clean up is ongoing. 
 
 Welcoming pull requests and feedback. If you happen to include this in an audited project, I'd love to know about it. 
 
