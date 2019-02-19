@@ -1,6 +1,6 @@
 ## Hitchens Order Statistics Tree
 
-Solidity Library that implements a self-balancing binary search tree (BST) with specialized properties. The Libeary implements [Bokky Poobah's Red Black Tree](https://github.com/bokkypoobah/BokkyPooBahsRedBlackTreeLibrary) with additional properties. 
+Solidity Library that implements a self-balancing binary search tree (BST) with specialized properties. The Library implements [Bokky Poobah's Red Black Tree](https://github.com/bokkypoobah/BokkyPooBahsRedBlackTreeLibrary) with additional properties. 
 
 Adds O(1) order statistics to each node and the tree itself:
 
