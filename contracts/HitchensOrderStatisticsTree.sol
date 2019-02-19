@@ -7,7 +7,7 @@ A Solidity Red-Black Tree library to store and maintain a sorted data
 structure in a Red-Black binary search tree, with O(log 2n) insert, remove
 and search time (and gas, approximately)
 
-https://github.com/...
+https://github.com/rob-Hitchens/OrderStatisticsTree
 
 Copyright (c) Rob Hitchens. the MIT License
 
@@ -457,7 +457,7 @@ A Solidity Red-Black Tree library to store and maintain a sorted data
 structure in a Red-Black binary search tree, with O(log 2n) insert, remove
 and search time (and gas, approximately)
 
-https://github.com/...
+https://github.com/rob-Hitchens/OrderStatisticsTree
 
 Copyright (c) Rob Hitchens. the MIT License
 
