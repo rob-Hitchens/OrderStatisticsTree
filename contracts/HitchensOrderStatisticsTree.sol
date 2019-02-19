@@ -139,6 +139,12 @@ library HitchensOrderStatisticsTreeLibrary {
     function median(Tree storage self) internal view returns(uint key) {
         return atPercentile(self,50);
     }
+    function below(Tree storage self, uint key) public view returns(uint _below) {
+        if(count(self) > 0 && key > 0) _below = rank(self,key)-1;
+    }
+    function above(Tree storage self, uint key) public view returns(uint _above) {
+        if(count(self) > 0) _above = count(self)-rank(self,key);
+    } 
     function rank(Tree storage self, uint key) internal view returns(uint _rank) {
         if(count(self) > 0) {
             bool finished;
@@ -545,10 +551,10 @@ contract HitchensOrderStatisticsTree is Owned {
         _rank = tree.rank(key);
     }
     function below(uint key) public view returns(uint _below) {
-        if(tree.count() > 0 && key > 0) _below = tree.rank(key)-1;
+        _below = tree.below(key);
     }
     function above(uint key) public view returns(uint _above) {
-        if(tree.count() > 0) _above = tree.count()-tree.rank(key);
+        _above = tree.above(key);
     }    
     function atRank(uint _rank) public view returns(uint _key) {
         _key = tree.atRank(_rank);
