@@ -19,7 +19,7 @@ A BST maintains an ordered list. A BST aims for O(log n) performance for inserti
 
 Ethereum's `mapping` largely negates the need for crawling a tree to find a particular node. This implementation completes most read operations, including reporting statistics, in one operation. On the other hand, write operations in Ethereum are exceptionally expensive relative to reads. Consequently, we should optimize for insertion efficiency over read efficiency. Balance is important, but mostly in terms of insertion and deletion cost. This is roughly the opposite of most database systems that are optimized for read-back efficiency.
 
-A Red Black Tree optimizes the cost of insertion and removal by tolerating limited imbalance. Tolerating limited imbalance reduces the frequency and depth of tree reorganizations which reduces insert and delete cost.  
+A [Red Black Tree](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree) optimizes the cost of insertion and removal by tolerating limited imbalance. Tolerating limited imbalance reduces the frequency and depth of tree reorganizations which reduces insert and delete cost.  
 
 ### Inserts and Deletes Take a "UID" and a "sortVal"
 
