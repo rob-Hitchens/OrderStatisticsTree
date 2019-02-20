@@ -243,7 +243,7 @@ NO TESTING OF ANY KIND HAS BEEN PERFORMED AND YOU USE THIS LIBRARY AT YOUR OWN E
 
 Optimization and clean-up is ongoing. 
 
-The author welcomes pull requests, feature requests, testing assistance and feedback. Contact for author if you would like assistance with customization or calibrating the code for a specific application or gathering of different statistics.
+The author welcomes pull requests, feature requests, testing assistance and feedback. Contact the author if you would like assistance with customization or calibrating the code for a specific application or gathering of different statistics.
 
 ## License
 
