@@ -28,7 +28,7 @@ A [Red Black Tree](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree) optimiz
 
 Client's can store any of the scaler types in `_uid` after converting to the native `bytes32` type. The same principle applies to `_sortVal`. Note that `0` is reserved for performance reasons. In the case that `0` has meaning within the application, apply an offset to ensure a `0` is never submitted for sorting. 
 
-Since multiple users or transactions could have the same `_sortVal`, this is permitted. Consider a case of "users" with "scores" to sort. User addresses would re-cast as `bytes32` and the scores offset by `1` unless a `0` score is not possible. These are client-side responsibilities. 
+Since multiple users or transactions could have the same `_sortVal`, this is permitted. Consider a case of "users" with "scores" to sort. User addresses would be re-cast as `bytes32` and the scores offset by `1` unless a score of `0` is not possible. Those are client-side responsibilities. 
 
 - (Alice) _uid: `0x123...`, (score) _sortVal: `80`
 - (Bob) _uid: `0x456...`, (score) _sortVal: `80`
