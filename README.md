@@ -50,7 +50,7 @@ A client application can use the `sortValValueExists(bytes32 _uid, uint _sortVal
 
 ```
 function insertSomething(uint value, bytes32 id, args ...) ... {
-  require(!sortValValueExists(value, id);
+  require(!sortValValueExists(id, value);
   // carry on
 ```
 
