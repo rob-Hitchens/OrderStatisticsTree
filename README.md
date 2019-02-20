@@ -24,7 +24,7 @@ A [Red Black Tree](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree) optimiz
 ### Inserts and Deletes Take a "UID" and a "sortVal"
 
 - `_sortVal`: The value to sort, such as price, amount, rating, etc.. These are unsigned integers. `0` is prohibited. 
-- `_uid`: A unique identifier for the entry. This should be meaningful at the application layer, such as ticketID, transactionID or UserID. These are `bytes32`.
+- `_uid`: (Optional). A unique identifier for the entry. This should be meaningful at the application layer, such as ticketID, transactionID or UserID. These are `bytes32`. If there is no reason to point back to application-level records, it's safe to use `0x0` for all entries, provided there are no duplicate `_sortVals`.
 
 Client's can store any of the scaler types in `_uid` after converting to the native `bytes32` type. The same principle applies to `_sortVal`. Note that `0` is reserved for performance reasons. In the case that `0` has meaning within the application, apply an offset to ensure a `0` is never submitted for sorting. 
 
