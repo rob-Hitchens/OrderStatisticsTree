@@ -2,7 +2,7 @@
 
 [https://github.com/rob-Hitchens/OrderStatisticsTree](https://github.com/rob-Hitchens/OrderStatisticsTree)
 
-Solidity Library that implements a self-balancing binary search tree (BST) with specialized properties. The Library implements [Bokky Poobah's Red Black Tree](https://github.com/bokkypoobah/BokkyPooBahsRedBlackTreeLibrary) with additional properties. 
+Solidity Library that implements a self-balancing binary search tree (BST) with [Order Statistics Tree](https://en.wikipedia.org/wiki/Order_statistic_tree) extensions. The Library implements [Bokky Poobah's Red Black Tree](https://github.com/bokkypoobah/BokkyPooBahsRedBlackTreeLibrary) with additional properties. 
 
 Adds O(1) order statistics to each node and the tree itself:
 
