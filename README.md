@@ -21,6 +21,8 @@ Ethereum's `mapping` largely negates the need for crawling a tree to find a part
 
 A [Red Black Tree](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree) optimizes the cost of insertion and removal by tolerating limited imbalance. Tolerating limited imbalance reduces the frequency and depth of tree reorganizations which reduces insert and delete cost.  
 
+This implementation relies on the iterative approach to functions that seem recursive in nature, to avoid problems with stack depth. 
+
 ### Inserts and Deletes Take a "UID" and a "sortVal"
 
 - `_sortVal`: The value to sort, such as price, amount, rating, etc.. These are unsigned integers. `0` is prohibited. 
