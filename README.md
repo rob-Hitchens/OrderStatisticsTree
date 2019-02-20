@@ -132,11 +132,11 @@ If higher statistical resolution is required, then the same data set could be sc
 
 Other tree growth limiting strategies are possible. For example, a reputation system might expire votes on a FIFO basis, simply discarding the oldest vote when the tree size exceeds a set limit. The growth-limiting strategy is an application-level concern. 
 
-Bokky has informally tested the basic tree up to 10,000 nodes. Do NOT expect the same performance here. This implementation adds additional data (`count`) and recursive processes that maintain it, so a gas cost increase is unavoidable. *The gas cost for these processes scales with tree depth.*
+Bokky has informally tested the basic tree up to 10,000 nodes. Do NOT expect the same performance here. This implementation adds additional data (`count`) and recursive logic (implemented as iterative processes) that maintain them, so a gas cost increase is unavoidable. *The gas cost for these processes scales with tree depth.*
 
 ## Code Examples
 
-The example Solidity file contains two example contract implementations in flattened form. The first, shown below, exposes the Library functions for a single Tree (`...Tree`).
+The example Solidity file contains two example contract implementations in flattened form. The first, shown below, exposes the Library functions for a single Tree (`...Tree`). Just pull the works into Remix and play. 
 
 If you have trouble getting started, use the singular implementation and:
 
@@ -151,7 +151,7 @@ You cannot:
 
 You can:
 
-`removeSortValUid: ("0xaa",1)` because it exists. 
+`removeSortValUid: ("0xaa",1)` because it does exist. 
 
 You will see that `2` has become the `treeRoot()` because of the automatic reorganization. 
 
@@ -281,3 +281,4 @@ SOFTWARE.
 Portions based on BokkyPooBahsRedBlackTreeLibrary, 
 https://github.com/bokkypoobah/BokkyPooBahsRedBlackTreeLibrary
 
+Hope it helps.
