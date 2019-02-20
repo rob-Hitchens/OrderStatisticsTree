@@ -233,7 +233,7 @@ Although I'm a strong believer that the sorting concern can (and should) nearly 
 
 "Good enough" sorting means able to find the *exact median* (or percentile, etc.) value with known precision. Since the Order Tree holds the keys for the sorted entries, applications would normally consult authoratative records (without rounding) to find the exact values if any rounding is performed before inserting into the tree. 
 
-This systems gives developers fine-grained control over resolution and performance. 
+This system gives developers fine-grained control over resolution and performance. 
 
 ## Tests
 
