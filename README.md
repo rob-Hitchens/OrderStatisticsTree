@@ -161,74 +161,74 @@ contract HitchensOrderStatisticsTree is Owned {
 
     HitchensOrderStatisticsTreeLibrary.Tree tree;
 
-    event Log(string action, uint key, bytes32 value);
+    event Log(string action, uint sortVal, bytes32 value);
 
     constructor() public {
     }
-    function root() public view returns (uint _key) {
-        _key = tree.root;
+    function treeRootNode() public view returns (uint _sortVal) {
+        _sortVal = tree.root;
     }
-    function first() public view returns (uint _key) {
-        _key = tree.first();
+    function firstSortVal() public view returns (uint _sortVal) {
+        _sortVal = tree.first();
     }
-    function last() public view returns (uint _key) {
-        _key = tree.last();
+    function lastSortVal() public view returns (uint _sortVal) {
+        _sortVal = tree.last();
     }
-    function next(uint key) public view returns (uint _key) {
-        _key = tree.next(key);
+    function nextSortVal(uint sortVal) public view returns (uint _sortVal) {
+        _sortVal = tree.next(sortVal);
     }
-    function prev(uint key) public view returns (uint _key) {
-        _key = tree.prev(key);
+    function prevSortVal(uint sortVal) public view returns (uint _sortVal) {
+        _sortVal = tree.prev(sortVal);
     }
-    function exists(uint key) public view returns (bool _exists) {
-        _exists = tree.exists(key);
+    function sortValExists(uint sortVal) public view returns (bool _exists) {
+        _exists = tree.exists(sortVal);
     }
-    function exists(bytes32 value, uint key) public view returns(bool _exists) {
-        _exists = tree.valueExists(key, value);
+    function sortValValueExists(bytes32 value, uint sortVal) public view returns(bool _exists) {
+        _exists = tree.valueExists(sortVal, value);
     }
-    function node(uint _key) public view returns (uint key, uint parent, uint left, uint right, bool red, uint values, uint count) {
-        (key, parent, left, right, red, values, count) = tree.getNode(_key);
+    function getNode(uint _sortVal) public view returns (uint parent, uint left, uint right, bool red, uint uidCount, uint count) {
+        (parent, left, right, red, uidCount, count) = tree.getNode(_sortVal);
     }
-    function nodeValue(uint key, uint row) public view returns(bytes32 _value) {
-        _value = tree.getNodeValueAtIndex(key,row);
+    function getNodeUid(uint sortVal, uint row) public view returns(bytes32 _uid) {
+        _uid = tree.getNodeValueAtIndex(sortVal,row);
     }
-    function count() public view returns(uint _count) {
+    function sortValCount() public view returns(uint _count) {
         _count = tree.count();
     }
-    function percentile(uint key) public view returns(uint _percentile) {
-        _percentile = tree.percentile(key);
+    function sortValPercentile(uint sortVal) public view returns(uint _percentile) {
+        _percentile = tree.percentile(sortVal);
     }
-    function permil(uint key) public view returns(uint _permil) {
-        _permil = tree.percentile(key);
+    function sortValPermil(uint sortVal) public view returns(uint _permil) {
+        _permil = tree.permil(sortVal);
     }  
-    function atPercentile(uint _percentile) public view returns(uint _key) {
-        _key = tree.atPercentile(_percentile);
+    function sortValAtPercentile(uint _percentile) public view returns(uint _sortVal) {
+        _sortVal = tree.atPercentile(_percentile);
     }
-    function atPermil(uint key) public view returns(uint _key) {
-        _key = tree.atPermil(key);
+    function sortValAtPermil(uint sortVal) public view returns(uint _sortVal) {
+        _sortVal = tree.atPermil(sortVal);
     }
-    function median() public view returns(uint _key) {
+    function medianSortVal() public view returns(uint _sortVal) {
         return tree.median();
     }
-    function rank(uint key) public view returns(uint _rank) {
-        _rank = tree.rank(key);
+    function sortValRank(uint sortVal) public view returns(uint _rank) {
+        _rank = tree.rank(sortVal);
     }
-    function below(uint key) public view returns(uint _below) {
-        if(tree.count() > 0 && key > 0) _below = tree.rank(key)-1;
+    function sortValBelow(uint sortVal) public view returns(uint _below) {
+        _below = tree.below(sortVal);
     }
-    function above(uint key) public view returns(uint _above) {
-        if(tree.count() > 0) _above = tree.count()-tree.rank(key);
+    function sortValAbove(uint sortVal) public view returns(uint _above) {
+        _above = tree.above(sortVal);
     }    
-    function atRank(uint _rank) public view returns(uint _key) {
-        _key = tree.atRank(_rank);
+    function sortValAtRank(uint _rank) public view returns(uint _sortVal) {
+        _sortVal = tree.atRank(_rank);
     }
-    function insert(bytes32 _value, uint _key) public onlyOwner {
-        emit Log("insert", _key, _value);
-        tree.insert(_key, _value);
+    function insertSortValUid(bytes32 _uid, uint _sortVal) public onlyOwner {
+        emit Log("insert", _sortVal, _uid);
+        tree.insert(_sortVal, _uid);
     }
-    function remove(bytes32 _value, uint _key) public onlyOwner {
-        emit Log("delete", _key, _value);
-        tree.remove(_key, _value);
+    function removeSortValUid(bytes32 _uid, uint _sortVal) public onlyOwner {
+        emit Log("delete", _sortVal, _uid);
+        tree.remove(_sortVal, _uid);
     }
 }
 ```
