@@ -56,8 +56,17 @@ function insertSomething(uint value, bytes32 id, args ...) ... {
 
 ### Functions
 
-- `insertSortValUid(bytes32 _uid, uint _sortVal)`: Inserts a sorted value and related UID. The pair must not exist. Reverts if it does.
-- `removeSortValUid(bytes32 _uid, uint _sortVal)`: Removes a sorted value and related UID. The pair must exist. Reverts if it does.
+- `insertSortValUid(bytes32 _uid, uint _sortVal)`: Inserts a sorted value and related UID. The pair must not exist. Reverts if it does. If the sorted value already exists in the tree, then the UID is appended of the list of instances in an existing node.
+- `removeSortValUid(bytes32 _uid, uint _sortVal)`: Removes a sorted value and related UID. The pair must exist. Reverts if it does. If multiple UIDs exist for the given UID, then it removed from the list of UIDs for the given value. If it is the last UID for the given value, then the node is removed. 
+
+Insertions and deletions always:
+- recurse awards to the tree root to update the counters. 
+
+and may:
+- trigger rebalancing if a node is added or removed. 
+
+#### View functions:
+
 - `sortValExists(uint _sortVal)`: bool. True if at least one UID has the inputed sort value.
 - `sortValValueExists(bytes32 _uid, uint _sortVal)`: bool. True if the UID is a member of the set of UIDs with the given sort value. 
 - `sortValCount()`: uint. The number of unique sorted value plus UID pairs in the system. 
