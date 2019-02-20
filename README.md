@@ -58,11 +58,11 @@ function insertSomething(uint value, bytes32 id, args ...) ... {
 
 ### Functions
 
-- `insertSortValUid(bytes32 _uid, uint _sortVal)`: Inserts a sorted value and related UID. The pair must not exist. Reverts if it does. If the sorted value already exists in the tree, then the UID is appended of the list of instances in an existing node.
-- `removeSortValUid(bytes32 _uid, uint _sortVal)`: Removes a sorted value and related UID. The pair must exist. Reverts if it does. If multiple UIDs exist for the given UID, then it removed from the list of UIDs for the given value. If it is the last UID for the given value, then the node is removed. 
+- `insertSortValUid(bytes32 _uid, uint _sortVal)`: Inserts a sorted value and related UID. The pair must not exist. Reverts if it does. If the sorted value already exists in the tree, then the UID is appended to the list of instances in an existing node.
+- `removeSortValUid(bytes32 _uid, uint _sortVal)`: Removes a sorted value and related UID. The pair must exist. Reverts if it does. If multiple UIDs exist for the given sorted value, then the UID is removed from the list of UIDs for the given value. If it is the last UID for the given value, then the node is removed. 
 
 Insertions and deletions always:
-- recurse awards to the tree root to update the counters. 
+- recurse toward to the tree root to update the counters. 
 
 and may:
 - trigger rebalancing if a node is added or removed. 
