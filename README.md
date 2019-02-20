@@ -229,7 +229,11 @@ The function signatures are the same except the inputs are prefexied with a `byt
 
 ## Motivation
 
-Although I'm a strong believer that the sorting concern can (and should) nearly almost always be externalized from Solidity contracts, this is a generalized approach for those cases when it has to be done. The focus is on gas cost optimization. In particular, developer control of the desired statistical and sort-order resolution so that ordered lists don't necessarily carry unnecessary and unacceptable cost. It allows for the idea of "good enough" sorting, "good enough" tree balance and "close enough" values that are suitable for many cases where contract logic depends on a sorted list or statistic (median, min, max, etc.) and there are expected to be a large number of entries. 
+Although I'm a strong believer that the sorting concern can (and should) nearly almost always be externalized from Solidity contracts, this is a generalized approach for those cases when it has to be done. The focus is on gas cost optimization. In particular, developer control of the desired statistical and sort-order resolution so that ordered lists don't necessarily carry unnecessary and unacceptable cost. It allows for the idea of "good enough" sorting, "good enough" tree balance and "close enough" statistics that are suitable for many cases where contract logic depends on a sorted list or statistic (median, min, max, etc.) and *there is expected to be a large number of entries*. 
+
+"Good enough" sorting means able to find the *exact median* (or percentile, etc.) value with known precision. Since the Order Tree holds the keys for the sorted entries, applications would normally consult authoratative records (without rounding) to find the exact values if any rounding is performed before inserting into the tree. 
+
+This systems gives developers fine-grained control over resolution and performance. 
 
 ## Tests
 
