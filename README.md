@@ -77,7 +77,7 @@ and may:
 - `median()`: uint. The median sorted value. 
 - `prev(uint value)`: uint. Sort value before the inputed sort value. `0` if no such record exists.
 - `next(uint value)`: uint. Sort value after the inputed sort value. `0` if no such record exists.
-- `above(uint value)`: uint. Count of entries above the inputed sort value. Equal entries are excluded.
+- `above(uint value)`: uint. Count of entries above the inputed sort value. Equal entries are included.
 - `below(uint value)`: uint. Count of entries below the inputed sort value. Equal entries are excluded.
 - `percentile(uint value)`: uint. Percentile rank of the inputed sort value. All key entries at the given sorted value are considered equivalent and have the same percentile rank. Returns the nearest hit (where if would be) if no such value exists in the tree. 
 - `permil(uint value)`: uint. Like percentile, with an extra digit of precision. 
