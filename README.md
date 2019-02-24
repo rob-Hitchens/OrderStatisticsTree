@@ -23,7 +23,7 @@ A [Red Black Tree](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree) optimiz
 
 This implementation relies on the iterative approach to functions that seem recursive in nature, to avoid problems with stack depth. 
 
-### Inserts and Deletes Take a "UID" and a "sortVal"
+### Inserts and Deletes Take a Key and a Value
 
 - `_sortVal`: The value to sort, such as price, amount, rating, etc.. These are unsigned integers. `0` is prohibited. 
 - `_uid`: (Optional). A unique identifier for the entry. This should be meaningful at the application layer, such as ticketID, transactionID or UserID. These are `bytes32`. If there is no reason to point back to application-level records, it's safe to use `0x0` for all entries, provided there are no duplicate `_sortVals`.
