@@ -1,4 +1,4 @@
-pragma solidity 0.4.25;
+pragma solidity 0.5.1;
 
 interface OwnedInterface {
     function getOwner() external view returns(address owner);
@@ -30,7 +30,7 @@ contract Owned is OwnedInterface {
         onlyOwner 
         returns(bool success) 
     {
-        require(newOwner != 0);
+        require(newOwner != address(0));
         emit LogOwnerChanged(newOwner);
         contractOwner = newOwner;
         return true;
