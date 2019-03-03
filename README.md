@@ -128,7 +128,7 @@ For example, consider a data set of integers with a possible range of `51-100`. 
 
 As a reminder, all entries collated in a particular node are organized *in no particular order*. That is, there would be no ordering assurance for all records stored in the same node, e.g. `53`. *This property makes the maximum insertion/deletion cost manageable*. 
 
-If higher statistical resolution is required, then the same data set could be scaled as set of values in the range of `501-1000`. In effect, `50.1-100.0`. In this case the ordering and statistical analysis will yield an extra decimal of precision. Doing so will result in a maximum possible tree size of 1,000 nodes and a corresponding increase in the maximum gas cost for insertion and removal operations owing to increased tree depth. 
+If higher statistical resolution is required, then the same data set could be scaled as set of values in the range of `501-1000`. In effect, `50.1-100.0`. In this case the ordering and statistical analysis will yield an extra decimal of precision. Doing so will result in a maximum possible tree size of 500 nodes and a corresponding increase in the maximum gas cost for insertion and removal operations owing to increased tree depth. 
 
 Other tree growth limiting strategies are possible. For example, a reputation system might expire votes on a FIFO basis, simply discarding the oldest vote when the tree size exceeds a set limit. The growth-limiting strategy is an application-level concern. 
 
