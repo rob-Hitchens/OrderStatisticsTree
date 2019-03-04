@@ -7,7 +7,7 @@ Solidity Library that implements a self-balancing binary search tree (BST) with 
 Adds order statistics to each node and the tree itself:
 
 - report a value position in sorted list.  
-- report the count of values above and below a certain value
+- report the count of values above and below a certain value.
 - report percentile, median, rank, etc.
 - find the value with a given percentile rank.
 
