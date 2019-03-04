@@ -11,22 +11,24 @@ Adds order statistics to each node and the tree itself:
 - report percentile, median, rank, etc.
 - find the value with a given percentile rank.
 
+Provides a method of ensuring such statistics can be gathered and the structure maintained at a fixed maximum cost any any scale: `O(1)`
+
 ### Red Black Tree Organization
 
 A BST maintains an ordered list. A BST aims for O(log n) performance for insertions and removals but only if the tree remains balanced. Balancing is accomplished through local reorganizations (rotations). 
 
 [Ideally balanced trees](https://en.wikipedia.org/wiki/AVL_tree) optimize read operations by ensuring optimal balance as sorted data is inserted and removed. This method invests considerable energy (meaning gas) keeping the list perfectly balanced.
 
-Ethereum's `mapping` largely negates the need for crawling a tree to find a particular node. This implementation completes most read operations, including reporting statistics, in one operation. On the other hand, write operations in Ethereum are exceptionally expensive relative to reads. Consequently, we should optimize for insertion efficiency over read efficiency. Balance is important, but mostly in terms of insertion and deletion cost. This is roughly the opposite of most database systems that are optimized for read-back efficiency.
+Ethereum's `mapping` largely negates the need for crawling a tree to find a particular node. This implementation completes most read operations, including reporting statistics, in one operation. On the other hand, write operations in Ethereum are exceptionally expensive relative to reads. Therefore, we should prioritize update efficiency over read efficiency. This is roughly the opposite of most database systems that are optimized for read-back efficiency.
 
-A [Red Black Tree](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree) optimizes the cost of insertion and removal by tolerating limited imbalance. Tolerating limited imbalance reduces the frequency and depth of tree reorganizations which reduces insert and delete cost.  
+A [Red Black Tree](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree) optimizes the cost of insertion and removal by tolerating limited imbalance. Tolerating limited imbalance reduces the frequency and extent of tree reorganizations which reduces update cost.  
 
 This implementation relies on the iterative approach to functions that seem recursive in nature, to avoid problems with stack depth. 
 
 ### Inserts and Deletes Take a Key and a Value
 
 - `value`: The value to sort, such as price, amount, rating, etc.. These are unsigned integers. `0` is prohibited. 
-- `key`: (Optional). A unique identifier for the entry. This should be meaningful at the application layer, such as ticketID, transactionID or UserID. These are `bytes32`. If there is no reason to point back to application-level records, it's safe to use `0x0` for all entries, provided there are no duplicate `value`.
+- `key`: (Optional). A unique identifier for the entry. This should be meaningful at the application layer, such as ticketID, transactionID or UserID. These are `bytes32`. If there is no reason to point back to application-level records, it's safe to use `0x0` for all entries, provided there are no duplicate key/value pairs.
 
 Client's can store any of the scaler types in `key` after converting to the native `bytes32` type. The same principle applies to `value`. Note that value `0` is reserved for performance reasons. In the case that `0` has meaning within the application, apply an offset to ensure a `0` is never submitted for sorting. 
 
@@ -40,21 +42,12 @@ These two entries will both be organized on the node representing `value: 80`. T
 Roughly:
 ```
 Node: 80
-_keyCount: 2
 _key: ['0x123...','0x456...']
 ```
 
 Delete activities require the `value` and the `key`. This means the tree always contains an ordered list of the sorted values, and the unique identifiers of application-level details related to them. The `key` list for entries with *identical* `value` is in *no particular order* for performance reasons. 
 
-**WARN:** The tree enforces uniqueness for `value` plus `key` but it does not enforce `key` uniqueness throughout the tree. If such a situation is non-sensical (e.g. any given transaction ID can only have one price), then this uniqueness check should be enforced at the application level. It is *not* performed here because it is not strictly required in all cases and enforcement would add complexity and increase insertion cost. 
-
-A client application can use the `keyExists(bytes32 key, uint value)` function for such an enforcement:
-
-```
-function insertSomething(uint value, bytes32 key, args ...) ... {
-  require(!keyExists(key, value);
-  // carry on
-```
+**WARN:** The tree enforces uniqueness for key/value pairs but it does not enforce uniqueness for keys alone throughout the tree. If such a duplication is non-sensical (e.g. any given transaction ID can only have one price), then this uniqueness check should be enforced at the application level. 
 
 ### Functions
 
@@ -65,7 +58,7 @@ Insertions and deletions always:
 - recurse toward to the tree root to update the counters. 
 
 and may:
-- trigger rebalancing if a node is added or removed. 
+- trigger rebalancing if a node is added or removed. If rebalancing is necessary it follows the Red Black Tree algorithm.
 
 #### View functions:
 
@@ -85,9 +78,9 @@ and may:
 - `atPermil(uint _permil)`: uint. Like atPercentile, with an extra digit of precision. 
 - `getNode(uint value)`: Returns the tree node details enumerated below.
 
-#### getNode(uint value) and root()
+#### getNode
 
-Returns the tree node data including tree structure. There must be at least one sorted value with this value for the node to exist in the tree. Reverts if the node doesn't exist. 
+`getNode(uint value)`: Returns tree data for one node. There must be at least one key/value pair with this value for the node to exist in the tree. Reverts if the node doesn't exist. 
 
 ```
 Node {
@@ -102,15 +95,17 @@ Node {
 
 For applications, the only value that would be generally useful to an application is:
 
-- `getNode(uint value).keyCount `: This is the number of key entries with the same sorted value. For example, identical test scores from multiple students. This informs a client that wishes to iterate the list using:
+- `keyCount `: This is the number of key entries with the same sorted value. For example, identical test scores from multiple students. This informs a client that wishes to iterate the key list of a given value using:
 
 - `valueKeyAtIndex(uint value, row)`: bytes32. The key associated with the sort value at a given row. 
 
 The remaining values in the `getNode` response expose the internal structure of the tree. This is expected to be useful only for study of the internal structure or constructing other methods of tree exploration.
 
-`parent`, `left` and `right` describe tree organization. `count` (do not confuse with `keyCount`) is the sum of `keyCount` for all nodes in the subtree inclusive of this node. This is not expected to be useful for an application. 
+`parent`, `left` and `right` describe tree organization. `count` (do not confuse with `keyCount`) is the sum of `keyCount` for all nodes in the subtree of this node, inclusive. This is not expected to be useful for an application. 
 
-- `root()`: This is the root of the Order Statistics Tree. It is not expected to be useful at an application level. It is the summit of the tree and the only node with no parent. 
+#### root()
+
+- `root()`: This is the root of the Order Statistics Tree. It is not expected to be useful at an application level. It is the only node with no parent. 
 
 #### Owner() and changeOwner()
 
@@ -122,7 +117,7 @@ The root node and node left, right, parent values are subject to change with eac
 
 ### Finite Tree Growth
 
-While it is not a requirement, it is recommended to devise a strategy to ensure a finite number of nodes. This would usually imply limiting precision in the sorted values, limiting the age of the entries or a purpose-built strategy that reliably limits the number of nodes that can exist. In other words, you should be able to show that the maximum number of nodes *possible* will never exceed an acceptable limit.
+While it is not a strict requirement, it is recommended to devise a strategy to ensure a finite number of nodes. This would usually imply limiting precision in the sorted values, limiting the age of the entries or a purpose-built strategy that reliably limits the number of unique sorted values that can exist. In other words, you should be able to show that the maximum number of nodes *possible* will never exceed an acceptable limit.
 
 For example, consider a data set of integers with a possible range of `51-100`. The tree size will be limited to 50 nodes. The nodes will accept unlimited records and it will be possible to estimate a worst-case insertion/deletion cost *at any scale* for a tree with worst-case imbalance at a fixed maximum size.
 
@@ -147,13 +142,13 @@ Then explore the stats.
 
 You cannot:
 
-- `insert: ("0xab",2)` because that entry already exists. 
+- `insert: ("0xab",2)` again, because that entry already exists. 
 
 You can:
 
 `remove: ("0xaa",1)` because it does exist. 
 
-You will see that `2` has become the `root()` because of automatic tree reorganization. 
+If you do that, you will see that `2` has become the `root()` (was `1`) because of automatic tree reorganization. To further experiment with rebalancing, insert values in ascending order. This is the worst-case scenario for a self-balancing binary tree and it will force extensive rebalancing.
 
 ```
 contract HitchensOrderStatisticsTree is Owned {
@@ -235,11 +230,11 @@ contract HitchensOrderStatisticsTree is Owned {
 
 ## Motivation
 
-Although I'm a strong believer that the sorting concern can (and should) nearly almost always be externalized from Solidity contracts, this is a generalized approach for those cases when it must be done. The focus is on gas cost optimization. In particular, developer control of the desired statistical and sort-order resolution so that ordered lists don't necessarily carry unnecessary and unacceptable cost. It allows for the idea of "good enough" sorting, "good enough" tree balance and "close enough" statistics that are suitable for many cases where contract logic depends on a sorted list or statistic (median, min, max, etc.) and *there is expected to be a large number of entries*. 
+Although I'm a strong believer that the sorting concern can (and should) nearly almost always be externalized from Solidity contracts, this is a generalized approach for those cases when it must be done. The focus is on gas cost optimization. In particular, developer control of the desired statistical and sort-order resolution so that ordered lists or arbitrary size don't necessarily carry unnecessary and unacceptable cost. It allows for the idea of "good enough" sorting, "good enough" tree balance and "close enough" statistics that are suitable for many cases where contract logic depends on a sorted list and *there is expected to be a large number of entries*. 
 
-"Good enough" sorting means able to find the *exact median* (or percentile, etc.) value with known precision. Since the Order Tree holds the keys for the sorted entries, applications would normally consult authoratative records (without rounding) to find the exact values if any rounding is performed before inserting into the tree. 
+"Good enough" sorting means able to find the *median* (or percentile, etc.) value and all instances that share a value, with known precision. Since the Order Tree holds the keys for the sorted entries, applications would normally consult authoratative records (without rounding) to find the exact values if any rounding was performed before inserting into the tree. 
 
-This system gives developers fine-grained control over precision and performance. 
+This system gives developers fine-grained control over precision and performance/gas cost. 
 
 ## Tests
 
