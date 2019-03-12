@@ -160,68 +160,68 @@ contract HitchensOrderStatisticsTree is Owned {
 
     constructor() public {
     }
-    function root() public view returns (uint _value) {
+    function treeRootNode() public view returns (uint _value) {
         _value = tree.root;
     }
-    function first() public view returns (uint _value) {
+    function firstValue() public view returns (uint _value) {
         _value = tree.first();
     }
-    function last() public view returns (uint _value) {
+    function lastValue() public view returns (uint _value) {
         _value = tree.last();
     }
-    function next(uint value) public view returns (uint _value) {
+    function nextValue(uint value) public view returns (uint _value) {
         _value = tree.next(value);
     }
-    function prev(uint value) public view returns (uint _value) {
+    function prevValue(uint value) public view returns (uint _value) {
         _value = tree.prev(value);
     }
-    function exists(uint value) public view returns (bool _exists) {
+    function valueExists(uint value) public view returns (bool _exists) {
         _exists = tree.exists(value);
     }
-    function keyExists(bytes32 key, uint value) public view returns(bool _exists) {
+    function keyValueExists(bytes32 key, uint value) public view returns(bool _exists) {
         _exists = tree.keyExists(key, value);
     }
     function getNode(uint value) public view returns (uint _parent, uint _left, uint _right, bool _red, uint _keyCount, uint _count) {
         (_parent, _left, _right, _red, _keyCount, _count) = tree.getNode(value);
     }
-    function valueKeyAtIndex(uint value, uint row) public view returns(bytes32 _key) {
+    function getValueKey(uint value, uint row) public view returns(bytes32 _key) {
         _key = tree.valueKeyAtIndex(value,row);
     }
-    function count() public view returns(uint _count) {
+    function valueKeyCount() public view returns(uint _count) {
         _count = tree.count();
     } 
-    function percentile(uint value) public view returns(uint _percentile) {
+    function valuePercentile(uint value) public view returns(uint _percentile) {
         _percentile = tree.percentile(value);
     }
-    function permil(uint value) public view returns(uint _permil) {
+    function valuePermil(uint value) public view returns(uint _permil) {
         _permil = tree.permil(value);
     }  
-    function atPercentile(uint _percentile) public view returns(uint _value) {
+    function valueAtPercentile(uint _percentile) public view returns(uint _value) {
         _value = tree.atPercentile(_percentile);
     }
-    function atPermil(uint value) public view returns(uint _value) {
+    function valueAtPermil(uint value) public view returns(uint _value) {
         _value = tree.atPermil(value);
     }
-    function median() public view returns(uint _value) {
+    function medianValue() public view returns(uint _value) {
         return tree.median();
     }
-    function rank(uint value) public view returns(uint _rank) {
+    function valueRank(uint value) public view returns(uint _rank) {
         _rank = tree.rank(value);
     }
-    function below(uint value) public view returns(uint _below) {
+    function valuesBelow(uint value) public view returns(uint _below) {
         _below = tree.below(value);
     }
-    function above(uint value) public view returns(uint _above) {
+    function valuesAbove(uint value) public view returns(uint _above) {
         _above = tree.above(value);
     }    
-    function atRank(uint _rank) public view returns(uint _value) {
+    function valueAtRank(uint _rank) public view returns(uint _value) {
         _value = tree.atRank(_rank);
     }
-    function insert(bytes32 key, uint value) public onlyOwner {
+    function insertKeyValue(bytes32 key, uint value) public onlyOwner {
         emit Log("insert", key, value);
         tree.insert(key, value);
     }
-    function remove(bytes32 key, uint value) public onlyOwner {
+    function removeKeyValue(bytes32 key, uint value) public onlyOwner {
         emit Log("delete", key, value);
         tree.remove(key, value);
     }
