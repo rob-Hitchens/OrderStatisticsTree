@@ -1,4 +1,4 @@
-pragma solidity 0.5.1;
+pragma solidity ^0.5.1;
 
 /* 
 Hitchens Order Statistics Tree v0.97
@@ -127,18 +127,18 @@ library HitchensOrderStatisticsTreeLibrary {
         _permil = ((uint(10000) * numerator)/denominator+(uint(5)))/uint(10);
     }
     function atPercentile(Tree storage self, uint _percentile) internal view returns(uint _value) {
-        uint findRank = (((_percentile * count(self))/uint(10)) + 5) / uint(10);
+        uint findRank = (((_percentile * count(self))/uint(10)) + uint(5)) / uint(10);
         return atRank(self,findRank);
     }
     function atPermil(Tree storage self, uint _permil) internal view returns(uint _value) {
-        uint findRank = (((_permil * count(self))/uint(100)) + 5) / uint(10);
+        uint findRank = (((_permil * count(self))/uint(100)) + uint(5)) / uint(10);
         return atRank(self,findRank);
     }    
     function median(Tree storage self) internal view returns(uint value) {
         return atPercentile(self,50);
     }
     function below(Tree storage self, uint value) public view returns(uint _below) {
-        if(count(self) > 0 && value > 0) _below = rank(self,value)-1;
+        if(count(self) > 0 && value > 0) _below = rank(self,value)-uint(1);
     }
     function above(Tree storage self, uint value) public view returns(uint _above) {
         if(count(self) > 0) _above = count(self)-rank(self,value);
@@ -211,7 +211,7 @@ library HitchensOrderStatisticsTreeLibrary {
             } else if (value > probe) {
                 probe = self.nodes[probe].right;
             } else if (value == probe) {
-                self.nodes[probe].keyMap[key] = self.nodes[probe].keys.push(key) -1;
+                self.nodes[probe].keyMap[key] = self.nodes[probe].keys.push(key) - uint(1);
                 return;
             }
             self.nodes[cursor].count++;
@@ -221,7 +221,7 @@ library HitchensOrderStatisticsTreeLibrary {
         nValue.left = EMPTY;
         nValue.right = EMPTY;
         nValue.red = true;
-        nValue.keyMap[key] = nValue.keys.push(key) -1;
+        nValue.keyMap[key] = nValue.keys.push(key) - uint(1);
         if (cursor == EMPTY) {
             self.root = value;
         } else if (value < cursor) {
@@ -236,7 +236,7 @@ library HitchensOrderStatisticsTreeLibrary {
         require(keyExists(self,key,value));
         Node storage nValue = self.nodes[value];
         uint rowToDelete = nValue.keyMap[key];
-        nValue.keys[rowToDelete] = nValue.keys[nValue.keys.length-1];
+        nValue.keys[rowToDelete] = nValue.keys[nValue.keys.length - uint(1)];
         nValue.keyMap[key]=rowToDelete;
         nValue.keys.length--;
         uint probe;
@@ -500,70 +500,69 @@ contract HitchensOrderStatisticsTree is Owned {
 
     constructor() public {
     }
-    function root() public view returns (uint _value) {
+    function treeRootNode() public view returns (uint _value) {
         _value = tree.root;
     }
-    function first() public view returns (uint _value) {
+    function firstValue() public view returns (uint _value) {
         _value = tree.first();
     }
-    function last() public view returns (uint _value) {
+    function lastValue() public view returns (uint _value) {
         _value = tree.last();
     }
-    function next(uint value) public view returns (uint _value) {
+    function nextValue(uint value) public view returns (uint _value) {
         _value = tree.next(value);
     }
-    function prev(uint value) public view returns (uint _value) {
+    function prevValue(uint value) public view returns (uint _value) {
         _value = tree.prev(value);
     }
-    function exists(uint value) public view returns (bool _exists) {
+    function valueExists(uint value) public view returns (bool _exists) {
         _exists = tree.exists(value);
     }
-    function keyExists(bytes32 key, uint value) public view returns(bool _exists) {
+    function keyValueExists(bytes32 key, uint value) public view returns(bool _exists) {
         _exists = tree.keyExists(key, value);
     }
     function getNode(uint value) public view returns (uint _parent, uint _left, uint _right, bool _red, uint _keyCount, uint _count) {
         (_parent, _left, _right, _red, _keyCount, _count) = tree.getNode(value);
     }
-    function valueKeyAtIndex(uint value, uint row) public view returns(bytes32 _key) {
+    function getValueKey(uint value, uint row) public view returns(bytes32 _key) {
         _key = tree.valueKeyAtIndex(value,row);
     }
-    function count() public view returns(uint _count) {
+    function valueKeyCount() public view returns(uint _count) {
         _count = tree.count();
     } 
-    function percentile(uint value) public view returns(uint _percentile) {
+    function valuePercentile(uint value) public view returns(uint _percentile) {
         _percentile = tree.percentile(value);
     }
-    function permil(uint value) public view returns(uint _permil) {
+    function valuePermil(uint value) public view returns(uint _permil) {
         _permil = tree.permil(value);
     }  
-    function atPercentile(uint _percentile) public view returns(uint _value) {
+    function valueAtPercentile(uint _percentile) public view returns(uint _value) {
         _value = tree.atPercentile(_percentile);
     }
-    function atPermil(uint value) public view returns(uint _value) {
+    function valueAtPermil(uint value) public view returns(uint _value) {
         _value = tree.atPermil(value);
     }
-    function median() public view returns(uint _value) {
+    function medianValue() public view returns(uint _value) {
         return tree.median();
     }
-    function rank(uint value) public view returns(uint _rank) {
+    function valueRank(uint value) public view returns(uint _rank) {
         _rank = tree.rank(value);
     }
-    function below(uint value) public view returns(uint _below) {
+    function valuesBelow(uint value) public view returns(uint _below) {
         _below = tree.below(value);
     }
-    function above(uint value) public view returns(uint _above) {
+    function valuesAbove(uint value) public view returns(uint _above) {
         _above = tree.above(value);
     }    
-    function atRank(uint _rank) public view returns(uint _value) {
+    function valueAtRank(uint _rank) public view returns(uint _value) {
         _value = tree.atRank(_rank);
     }
-    function insert(bytes32 key, uint value) public onlyOwner {
+    function insertKeyValue(bytes32 key, uint value) public onlyOwner {
         emit Log("insert", key, value);
         tree.insert(key, value);
     }
-    function remove(bytes32 key, uint value) public onlyOwner {
+    function removeKeyValue(bytes32 key, uint value) public onlyOwner {
         emit Log("delete", key, value);
         tree.remove(key, value);
     }
 }
-
