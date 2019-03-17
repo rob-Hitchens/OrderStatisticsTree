@@ -248,7 +248,7 @@ The author welcomes pull requests, feature requests, testing assistance and feed
 
 ## License
 
-Copyright (c) Rob Hitchens. the MIT License
+Copyright (c), 2019, Rob Hitchens. The MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
