@@ -93,7 +93,7 @@ Node {
 }
 ```
 
-For applications, the only value that would be generally useful to an application is:
+For applications, the only values that would be generally useful to an application are:
 
 - `keyCount `: This is the number of key entries with the same sorted value. For example, identical test scores from multiple students. This informs a client that wishes to iterate the key list of a given value using:
 
