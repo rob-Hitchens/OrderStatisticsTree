@@ -63,7 +63,7 @@ and may:
 #### View functions:
 
 - `valueExists(uint value)`: bool. True if at least one key has the inputed sort value.
-- `valueValueExists(bytes32 key, uint value)`: bool. True if the key is a member of the set of keys with the given sort value. - 
+- `keyValueExists(bytes32 key, uint value)`: bool. True if the key is a member of the set of keys with the given sort value. - 
 - `count()`: uint. The number of unique key/value pairs in the system. 
 - `first()`: uint. The lowest sorted value.
 - `last()`: uint. The highest sorted value. 
