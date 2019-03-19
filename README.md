@@ -11,7 +11,7 @@ Adds order statistics to each node and the tree itself:
 - report percentile, median, rank, etc.
 - find the value with a given percentile rank.
 
-Provides a method of ensuring such statistics can be gathered and the structure maintained at a fixed maximum cost any any scale: `O(1)`
+Provides a method of ensuring such statistics can be gathered and the structure maintained at a fixed maximum cost at any scale: `O(1)`
 
 ### Red Black Tree Organization
 
