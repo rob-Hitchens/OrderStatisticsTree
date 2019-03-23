@@ -1,7 +1,7 @@
 pragma solidity ^0.5.1;
 
 /* 
-Hitchens Order Statistics Tree v0.97
+Hitchens Order Statistics Tree v0.98
 
 A Solidity Red-Black Tree library to store and maintain a sorted data
 structure in a Red-Black binary search tree, with O(log 2n) insert, remove
@@ -37,7 +37,7 @@ THIS SOFTWARE IS NOT TESTED OR AUDITED. DO NOT USE FOR PRODUCTION.
 
 import "./Owned.sol";
 
-library HitchensOrderStatisticsTreeLibrary {
+library HitchensOrderStatisticsTreeLib {
     uint private constant EMPTY = 0;
     struct Node {
         uint parent;
@@ -67,7 +67,7 @@ library HitchensOrderStatisticsTreeLibrary {
         }
     }
     function next(Tree storage self, uint value) internal view returns (uint _cursor) {
-        require(value != EMPTY);
+        require(value != EMPTY, "OrderStatisticsTree(401) - Starting value cannot be zero");
         if (self.nodes[value].right != EMPTY) {
             _cursor = treeMinimum(self, self.nodes[value].right);
         } else {
@@ -79,7 +79,7 @@ library HitchensOrderStatisticsTreeLibrary {
         }
     }
     function prev(Tree storage self, uint value) internal view returns (uint _cursor) {
-        require(value != EMPTY);
+        require(value != EMPTY, "OrderStatisticsTree(402) - Starting value cannot be zero");
         if (self.nodes[value].left != EMPTY) {
             _cursor = treeMaximum(self, self.nodes[value].left);
         } else {
@@ -101,7 +101,7 @@ library HitchensOrderStatisticsTreeLibrary {
         return self.nodes[value].keys[self.nodes[value].keyMap[key]] == key;
     } 
     function getNode(Tree storage self, uint value) internal view returns (uint _parent, uint _left, uint _right, bool _red, uint keyCount, uint count) {
-        require(exists(self,value));
+        require(exists(self,value), "OrderStatisticsTree(403) - Value does not exist.");
         Node storage gn = self.nodes[value];
         return(gn.parent, gn.left, gn.right, gn.red, gn.keys.length, gn.keys.length+gn.count);
     }
@@ -110,7 +110,7 @@ library HitchensOrderStatisticsTreeLibrary {
         return gn.keys.length+gn.count;
     }
     function valueKeyAtIndex(Tree storage self, uint value, uint index) internal view returns(bytes32 _key) {
-        require(exists(self,value));
+        require(exists(self,value), "OrderStatisticsTree(404) - Value does not exist.");
         return self.nodes[value].keys[index];
     }
     function count(Tree storage self) internal view returns(uint _count) {
@@ -200,8 +200,8 @@ library HitchensOrderStatisticsTreeLibrary {
         }
     }
     function insert(Tree storage self, bytes32 key, uint value) internal {
-        require(value != EMPTY);
-        require(!keyExists(self,key,value));
+        require(value != EMPTY, "OrderStatisticsTree(405) - Value to insert cannot be zero");
+        require(!keyExists(self,key,value), "OrderStatisticsTree(406) - Value and Key pair exists. Cannot be inserted again.");
         uint cursor;
         uint probe = self.root;
         while (probe != EMPTY) {
@@ -232,8 +232,8 @@ library HitchensOrderStatisticsTreeLibrary {
         insertFixup(self, value);
     }
     function remove(Tree storage self, bytes32 key, uint value) internal {
-        require(value != EMPTY);
-        require(keyExists(self,key,value));
+        require(value != EMPTY, "OrderStatisticsTree(407) - Value to delete cannot be zero");
+        require(keyExists(self,key,value), "OrderStatisticsTree(408) - Value to delete does not exist.");
         Node storage nValue = self.nodes[value];
         uint rowToDelete = nValue.keyMap[key];
         nValue.keys[rowToDelete] = nValue.keys[nValue.keys.length - uint(1)];
@@ -457,7 +457,7 @@ library HitchensOrderStatisticsTreeLibrary {
 }
 
 /* 
-Hitchens Order Statistics Tree v0.97
+Hitchens Order Statistics Tree v0.98
 
 A Solidity Red-Black Tree library to store and maintain a sorted data
 structure in a Red-Black binary search tree, with O(log 2n) insert, remove
@@ -492,9 +492,9 @@ THIS SOFTWARE IS NOT TESTED OR AUDITED. DO NOT USE FOR PRODUCTION.
 */
 
 contract HitchensOrderStatisticsTree is Owned {
-    using HitchensOrderStatisticsTreeLibrary for HitchensOrderStatisticsTreeLibrary.Tree;
+    using HitchensOrderStatisticsTreeLib for HitchensOrderStatisticsTreeLib.Tree;
 
-    HitchensOrderStatisticsTreeLibrary.Tree tree;
+    HitchensOrderStatisticsTreeLib.Tree tree;
 
     event Log(string action, bytes32 key, uint value);
 
@@ -566,3 +566,4 @@ contract HitchensOrderStatisticsTree is Owned {
         tree.remove(key, value);
     }
 }
+
