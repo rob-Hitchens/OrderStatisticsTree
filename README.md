@@ -55,7 +55,7 @@ Delete activities require the `value` and the `key`. This means the tree always 
 - `remove(bytes32 key, uint value)`: Removes a sorted value and related key. The pair must exist. Reverts if it doesn't. If multiple keys exist for the given sorted value, then the key is removed from the list of keys for the given value. If it is the last key for the given value, then the node is removed from the tree. 
 
 Insertions and deletions always:
-- recurse toward to the tree root to update the counters. 
+- recurse toward the tree root to update the counters. 
 
 and may:
 - trigger rebalancing if a node is added or removed. If rebalancing is necessary it follows the Red Black Tree algorithm.
