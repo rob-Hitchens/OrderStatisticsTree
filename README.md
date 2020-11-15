@@ -131,7 +131,26 @@ Bokky has informally tested the basic tree up to 10,000 nodes. Do NOT expect the
 
 ## Code Example
 
-The example Solidity file contains an example contract in flattened form. This exposes the Library functions for a single Tree (`...Tree`). Just pull the works into Remix and play. 
+The example Solidity file contains an example contract that uses the library. This exposes the Library functions for a single Tree (`...Tree`). 
+
+## Experimental Reverse Ranking
+
+The sample contract includes experimental functions that reverse some order information and suggest how other ranking information could be reversed. 
+
+```
+    function valueAtRankReverse(uint _rank) public view returns(uint _value) {
+        _value = tree.atRank(tree.count() - (_rank - 1));
+    }
+    function valueRankReverse(uint value) public view returns(uint _rank) {
+        _rank = tree.count() - (tree.rank(value) - 1);
+    }
+```
+
+## Test
+
+Two Truffle tests insert and delete from the tree and enumerate sorted elements and the tress structure. 
+
+## Getting Started
 
 If you have trouble getting started, use the singular implementation and:
 

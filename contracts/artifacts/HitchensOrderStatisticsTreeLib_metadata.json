@@ -1,0 +1,89 @@
+{
+	"compiler": {
+		"version": "0.5.1+commit.c8a2cb62"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"name": "self",
+						"type": "HitchensOrderStatisticsTreeLib.Tree storage"
+					},
+					{
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "below",
+				"outputs": [
+					{
+						"name": "_below",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"name": "self",
+						"type": "HitchensOrderStatisticsTreeLib.Tree storage"
+					},
+					{
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "above",
+				"outputs": [
+					{
+						"name": "_above",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"localhost/contracts/HitchensOrderStatisticsTree.sol": "HitchensOrderStatisticsTreeLib"
+		},
+		"evmVersion": "byzantium",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"localhost/contracts/HitchensOrderStatisticsTree.sol": {
+			"keccak256": "0xfb7656d8410937fcbb97bd3e5ca7dbd9fdb2f0a71e64f453951fd8ca36225614",
+			"urls": [
+				"bzzr://31f91f96a242b92e4d5e2a5db93de6faab17c7cf3370089c4c60c38979cf6b76"
+			]
+		},
+		"localhost/contracts/Owned.sol": {
+			"keccak256": "0x7e33ac18d51897110d75d33808f6db9bca46133a839f093f22014fccc3754e0c",
+			"urls": [
+				"bzzr://63ecf788bbe9ed2de96a434fdc4ce104ac6526530acc2e33dfe9667be3da7a30"
+			]
+		}
+	},
+	"version": 1
+}
