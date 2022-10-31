@@ -1,0 +1,15 @@
+__pycache__
+.history
+.hypothesis/
+build/
+reports/
+logdo.md
+_niftsy_s/
+.env
+abi/
+node_modules/
+hardhat*
+artifacts/
+cache/
+.pytest_cache/
+
