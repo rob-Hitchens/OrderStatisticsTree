@@ -1,6 +1,8 @@
 ## Hitchens Order Statistics Tree
 
-[https://github.com/rob-Hitchens/OrderStatisticsTree](https://github.com/rob-Hitchens/OrderStatisticsTree)
+[https://github.com/rob-Hitchens/OrderStatisticsTree](https://github.com/rob-Hitchens/OrderStatisticsTree)  
+
+For use **Hitchens Order Statistics Tree, Solidity v0.8.17** please follow [README2.md](./README2.md) 
 
 Solidity Library that implements a self-balancing binary search tree (BST) with [Order Statistics Tree](https://en.wikipedia.org/wiki/Order_statistic_tree) extensions. The Library implements [Bokky Poobah's Red Black Tree](https://github.com/bokkypoobah/BokkyPooBahsRedBlackTreeLibrary) with additional properties. 
 
