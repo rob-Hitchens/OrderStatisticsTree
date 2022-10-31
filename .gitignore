@@ -11,4 +11,5 @@ node_modules/
 hardhat*
 artifacts/
 cache/
+.pytest_cache/
 

@@ -1,5 +1,0 @@
-dotenv: .env
-compiler:
-    solc:
-        remappings:
-          - "@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.7.3"
